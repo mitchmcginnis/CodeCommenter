@@ -1,0 +1,24 @@
+#!/usr/bin/env ruby
+
+require 'slop'
+require 'code_commenter'
+
+opts = Slop.parse do |o|
+  o.string '-e', '--ext', '--extension', 'file extension, comment all files with given extension'
+  o.bool '-r', '-R', 'recursive', default: false
+  o.int '-v', '--verbosity', 'The level of verbosity (default: 0, max: 2)', default: 0
+  o.separator ''
+  o.separator 'other options:'
+  o.on '--ver', '--version', 'print the version' do
+    puts "Code Commenter version: "+CodeCommenter::VERSION
+    exit
+  end
+  o.on '-l', '--lang', 'print the supported languages' do
+    puts "Code Commenter Supported File Extensions: "+CodeCommenter::SUPPORTED_FILE_TYPES.join(", ")
+    exit
+  end
+  o.bool '-q', '--quiet', 'suppress output (quiet mode)'
+  o.bool '--uml', 'generate UML Diagram'
+end
+
+CodeCommenter.parse opts
